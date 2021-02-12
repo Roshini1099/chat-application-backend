@@ -1,9 +1,19 @@
-const dotenv = require('dotenv');
+const express = require("express");
+const dotenv = require("dotenv");
+const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+
 dotenv.config();
 
-var port = process.env.PORT || 3333;
 
-app.listen(port, () => {
-    console.log('Chat Application is listening on port ' + port);
+
+io.use((socket, next) => {
+//middleware
+  next();
 });
 
+io.on("connection", (socket) => {
+});
+
+server.listen(3000);
