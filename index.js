@@ -16,4 +16,10 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
 });
 
-server.listen(3000);
+
+var port = process.env.PORT || 3000;
+
+server.listen(port, () => {
+  console.log("Chat application API is listening on port " + port);
+});
+
