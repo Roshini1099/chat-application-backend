@@ -5,8 +5,9 @@ const dotenv = require("dotenv");
 dotenv.config();
 const InitiateMongoServer = require("./config");
 InitiateMongoServer();
-
+var cors = require('cors')
 const app = express();
+app.use(cors())
 if (dotenv.error) throw new Error("Error in fetching .env file");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
