@@ -1,25 +1,39 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const authRoute = require("./src/routes/authRoutes");
 const dotenv = require("dotenv");
+dotenv.config();
+const InitiateMongoServer = require("./config");
+InitiateMongoServer();
+
 const app = express();
+if (dotenv.error) throw new Error("Error in fetching .env file");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/api/auth", authRoute);
+
+app.get("/*", (req, res, next) => {
+  res.send({ msg: "page not found" });
+});
+
+app.use((err, req, res, next) => {
+  res.status(err.statusCode).send(err);
+});
+
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
-dotenv.config();
-
-
-
 io.use((socket, next) => {
-//middleware
-  next();
-});
-
-io.on("connection", (socket) => {
-});
-
-
-var port = process.env.PORT || 3000;
+  //middleware
+    next();
+  });
+  
+  io.on("connection", (socket) => {
+  });
+  
+var port = 3333;
 
 server.listen(port, () => {
-  console.log("Chat application API is listening on port " + port);
+  console.log('Chat Application is listening on port ' + port);
 });
-
