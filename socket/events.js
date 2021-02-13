@@ -48,9 +48,9 @@ exports.delivered = (socket,io,userSocketIdMap)=>{
     })
 }
 
-exports.delivered = (socket,io,userSocketIdMap)=>{
+exports.seen = (socket,io,userSocketIdMap)=>{
     socket.on('seen',payload=>{
-        // change the delivered status in the DB.
+        // change the seen status in the DB.
         if(payload.type==='channel')
         {
             io.to(payload.channelId).emit('seen',{chatId:payload.chatId,messageId:payload.messageId});
@@ -63,7 +63,7 @@ exports.delivered = (socket,io,userSocketIdMap)=>{
 
     })
 }
-
+//newMessage is called when a new direct message chat is initiated between two users.
 exports.newMessage = (socket,io,userSocketIdMap)=>{
     socket.on('newchat',payload=>{
         userSocketIdMap.get(payload.receiverId).forEach(receiverId=>{

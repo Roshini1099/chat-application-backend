@@ -1,4 +1,4 @@
-const {userStatus} = require('./events');
+const {userStatus,typing,getNewChat,delivered,seen,newMessage} = require('./events');
 
 
 const userSocketIdMap = new Map();
@@ -42,12 +42,6 @@ module.exports = io=>{
     });
     
     io.on("connection", (socket) => {
-        // socket.on('getList',()=>{
-        //     console.log('inside the getlist event')
-        //     let socketId  =userSocketIdMap.get('Ashish');
-        //     // console.log()
-        //     socket.emit('getList',Array.from(socketId));
-        // })
         userStatus(socket,io,true);
 
 
@@ -56,8 +50,16 @@ module.exports = io=>{
         socket.on('disconnect', () => {
             //remove this client from online list
             removeClientFromMap(socket.handshake.auth.userId, socket.id);
-            userStatus(socket,io,false)
+
+            userStatus(socket,io,false);
+            typing(socket,io,userSocketIdMap);
+            getNewChat(socket,io,userSocketIdMap);
+            delivered(socket,io,userSocketIdMap);
+            seen(socket,io,userSocketIdMap);
+            newMessage(socket,io,userSocketIdMap);
+
             socket.disconnect();
+            
             });
 
     });
