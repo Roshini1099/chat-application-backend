@@ -1,14 +1,24 @@
 const express = require("express");
+const initListeners = require('./socket/listener');
 const bodyParser = require("body-parser");
 const authRoute = require("./src/routes/authRoutes");
-const dotenv = require("dotenv");
-dotenv.config();
 const InitiateMongoServer = require("./config");
-InitiateMongoServer();
+const dotenv = require("dotenv");
 var cors = require('cors')
 const app = express();
-app.use(cors())
+const server = require("http").createServer(app);
+const io = require("socket.io")(server,{
+  cors: {
+    origin: "https://amritb.github.io",
+    methods: ["GET", "POST"]
+  }
+});
+dotenv.config();
 if (dotenv.error) throw new Error("Error in fetching .env file");
+
+InitiateMongoServer();
+
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -19,20 +29,11 @@ app.get("/*", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  res.status(err.statusCode).send(err);
+  res.status(err.statusCode).send(err.message);
 });
 
-const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+initListeners(io);
 
-io.use((socket, next) => {
-  //middleware
-    next();
-  });
-  
-  io.on("connection", (socket) => {
-  });
-  
 var port = 3333;
 
 server.listen(port, () => {
