@@ -1,20 +1,41 @@
 const express = require("express");
-const initListeners = require('./socket/listener')
+const initListeners = require('./socket/listener');
+const bodyParser = require("body-parser");
+const authRoute = require("./src/routes/authRoutes");
+const InitiateMongoServer = require("./config");
 const dotenv = require("dotenv");
 var cors = require('cors')
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server,{
-    cors: {
-      origin: "https://amritb.github.io",
-      methods: ["GET", "POST"]
-    }
+  cors: {
+    origin: "https://amritb.github.io",
+    methods: ["GET", "POST"]
+  }
 });
-app.use(cors())
-
 dotenv.config();
+if (dotenv.error) throw new Error("Error in fetching .env file");
+
+InitiateMongoServer();
+
+app.use(cors())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/api/auth", authRoute);
+
+app.get("/*", (req, res, next) => {
+  res.send({ msg: "page not found" });
+});
+
+app.use((err, req, res, next) => {
+  res.status(err.statusCode).send(err.message);
+});
+
 initListeners(io);
 
-server.listen(3000,()=>{
-    console.log('listening to port 3000')
+var port = 3333;
+
+server.listen(port, () => {
+  console.log('Chat Application is listening on port ' + port);
 });
