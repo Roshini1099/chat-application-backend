@@ -13,6 +13,18 @@ function validation(req, res, next) {
             return next(errors.bad_request("Bad request"));
         }
     }
+    else if (req.originalUrl === '/api/channel/newChannel') {
+        const { chatName, userId, type } = req.body;
+        if (!chatName || !userId || !type) {
+            return next(errors.bad_request("Bad request"));
+        }
+    }
+    else if (req.originalUrl === '/api/channel/joinChannel') {
+        const { chatId, userId } = req.body;
+        if (!chatId || !userId) {
+            return next(errors.bad_request("Bad request"));
+        }
+    }
     next();
 }
 

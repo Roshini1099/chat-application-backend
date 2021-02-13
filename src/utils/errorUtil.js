@@ -10,6 +10,11 @@ exports.unauthorised = (msg) => ({
 	msg: msg,
 });
 
+exports.forbidden = (msg) => ({
+	statusCode: statusCodes.forbidden,
+	msg: msg,
+});
+
 exports.conflict = (msg) => ({
 	statusCode: statusCodes.conflict,
 	msg: msg,

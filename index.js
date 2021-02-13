@@ -2,12 +2,13 @@ const express = require("express");
 const initListeners = require('./socket/listener');
 const bodyParser = require("body-parser");
 const authRoute = require("./src/routes/authRoutes");
+const channelRoute = require("./src/routes/channelRoutes");
 const InitiateMongoServer = require("./config");
 const dotenv = require("dotenv");
 var cors = require('cors')
 const app = express();
 const server = require("http").createServer(app);
-const io = require("socket.io")(server,{
+const io = require("socket.io")(server, {
   cors: {
     origin: "https://amritb.github.io",
     methods: ["GET", "POST"]
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoute);
+app.use("/api/channel", channelRoute);
 
 app.get("/*", (req, res, next) => {
   res.send({ msg: "page not found" });

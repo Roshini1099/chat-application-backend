@@ -5,7 +5,9 @@ const errors = require("../utils/errorUtil");
 function verifyToken(req, res, next) {
     var token = req.headers['x-access-token'];
     if (!token) {
-        next(errors.forbidden("No token provided"));
+        return res.status(errorCodes.forbidden).send({
+            message: 'No Token Provided'
+        });
     }
     jwt.verify(token, process.env.jwtSecret, function (err, decoded) {
         if (err && err.name === 'TokenExpiredError') {
@@ -15,8 +17,9 @@ function verifyToken(req, res, next) {
                 message: 'Token Expired'
             });
         } else if (err) {
-            console.log('Failed to authenticate token', err);
-            return  next(errors.internal_server_error("Failed to authenticate token"));
+            return res.status(errorCodes.internal_server_error).send({
+                message: 'Failed to authenticate token'
+            });
         }
         req.token = {
             id: decoded.id
