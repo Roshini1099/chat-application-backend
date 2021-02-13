@@ -5,9 +5,9 @@ const findByEmail = async (email) => {
     return user;
 };
 
-const createNewUser = (emailId, password, userName) => {
+const createNewUser = async (emailId, password, userName) => {
     let user;
-    user = new User({
+    user = await new User({
         emailId,
         password,
         userName
