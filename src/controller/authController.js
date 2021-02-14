@@ -1,5 +1,5 @@
 const errors = require("../utils/errorUtil");
-const { findByEmail, createNewUser } = require('../utils/dbUtil');
+const { findByEmail, createNewUser, findByUserId } = require('../utils/dbUtil');
 const { hashPassword, checkPassword, createToken } = require('../utils/authUtil');
 const errorCodes = require('../utils/errorCodes');
 
@@ -40,3 +40,18 @@ exports.login = async (req, res, next) => {
   }
 };
 
+
+exports.details = async (req, res, next) => {
+  const { userId } = req.body;
+  let existingUser;
+  try {
+    existingUser = await findByUserId(userId);
+      if (existingUser) {
+          res.status(errorCodes.ok).send(existingUser);
+      } else {
+          next(errors.not_found("User not found!!"));
+      }
+  } catch (err) {
+      next(errors.internal_server_error("Internal server error"));
+  }
+};

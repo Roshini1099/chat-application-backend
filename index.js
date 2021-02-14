@@ -2,6 +2,7 @@ const express = require("express");
 const initListeners = require('./socket/listener');
 const bodyParser = require("body-parser");
 const authRoute = require("./src/routes/authRoutes");
+const userRoute = require("./src/routes/userRoutes");
 const channelRoute = require("./src/routes/channelRoutes");
 const InitiateMongoServer = require("./config");
 const dotenv = require("dotenv");
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
 app.use("/api/channel", channelRoute);
 
 app.get("/*", (req, res, next) => {

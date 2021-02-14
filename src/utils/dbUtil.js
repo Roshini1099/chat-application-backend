@@ -6,10 +6,26 @@ const findByEmail = async (email) => {
     return user;
 };
 
+const findByUserId = async (userId) => {
+    const user = await User.findById(userId);
+    return user;
+};
+
 const findByChatName = async (chatName) => {
     const chat = await Chat.findOne({ chatName });
     return chat;
 };
+const findByUserIdAndUpdate = async (userId, userName, status, profileImage, phoneNumber) => {
+    const user = await User.findByIdAndUpdate(userId, {
+        $set: {
+            userName,
+            phoneNumber,
+            profileImage,
+            status
+        }
+    });
+    return user;
+}
 
 const createNewUser = async (emailId, password, userName) => {
     let user;
@@ -38,6 +54,8 @@ const joinNewChat = async (chatId, userId) => {
 
 exports.createNewChat = createNewChat;
 exports.findByEmail = findByEmail;
+exports.findByUserId = findByUserId;
+exports.findByUserIdAndUpdate = findByUserIdAndUpdate;
 exports.findByChatName = findByChatName;
 exports.createNewUser = createNewUser;
 exports.joinNewChat = joinNewChat;

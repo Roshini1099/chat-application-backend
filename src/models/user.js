@@ -15,9 +15,6 @@ const UserSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	socketId: {
-		type: String,
-	},
 	isOnline: {
 		type: Boolean,
 	},
@@ -31,6 +28,15 @@ const UserSchema = mongoose.Schema({
 	channels: {
 		type: Array,
 		default: []
+	},
+	profileImage: {
+		type: String
+	},
+	phoneNumber: {
+		type: String
+	},
+	status: {
+		type: String
 	}
 });
 
