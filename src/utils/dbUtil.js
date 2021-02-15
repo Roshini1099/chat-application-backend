@@ -127,6 +127,19 @@ const message = async (text, senderId, chatName, type, index) => {
     return chat;
 }
 
+const getNewChats = async (chatName, timestamp) => {
+    let arr = [];
+    const chat = await Chat.findOne({ chatName: chatName });
+    for (var k = 0; k < chat.messages.length; k++) {
+        if (chat.messages[k].timestamp >= timestamp) {
+            arr.push(chat.messages[k]);
+        }
+    }
+
+
+    return arr;
+};
+
 exports.createNewChat = createNewChat;
 exports.findByEmail = findByEmail;
 exports.findByUserId = findByUserId;
@@ -137,3 +150,4 @@ exports.joinNewChat = joinNewChat;
 exports.updateDirectMessage = updateDirectMessage;
 exports.updateChannel = updateChannel;
 exports.message = message;
+exports.getNewChats = getNewChats;

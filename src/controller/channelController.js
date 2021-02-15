@@ -1,5 +1,5 @@
 const errors = require("../utils/errorUtil");
-const { createNewChat, findByChatName, joinNewChat, findByUserId, updateDirectMessage, message, updateChannel } = require('../utils/dbUtil');
+const { createNewChat, findByChatName, joinNewChat, findByUserId, updateDirectMessage, message, updateChannel, getNewChats } = require('../utils/dbUtil');
 const errorCodes = require('../utils/errorCodes');
 const User = require('../models/user');
 const Chat = require('../models/chat');
@@ -71,9 +71,24 @@ exports.message = async (req, res, next) => {
     try {
         messages = await message(text, senderId, chatName, type, index);
         if (messages) {
-            res.status(errorCodes.ok).send({"message": "message posted sucesfully"});
+            res.status(errorCodes.ok).send({ "message": "message posted sucesfully" });
         } else {
             next(errors.not_found("Messages cannot be updated!!"));
+        }
+    } catch (err) {
+        next(errors.internal_server_error("Internal server error"));
+    }
+}
+
+exports.getChat = async (req, res, next) => {
+    const { chatName, timestamp } = req.body;
+    let chats;
+    try {
+        chats = await getNewChats(chatName, timestamp);
+        if (chats) {
+            res.status(errorCodes.ok).send(chats);
+        } else {
+            next(errors.not_found("Messages cannot be fetched!!"));
         }
     } catch (err) {
         next(errors.internal_server_error("Internal server error"));
