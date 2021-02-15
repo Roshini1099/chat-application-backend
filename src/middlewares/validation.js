@@ -24,8 +24,8 @@ function validation(req, res, next) {
         }
     }
     else if (req.originalUrl === '/api/channel/newChannel') {
-        const { chatName, userId, type } = req.body;
-        if (!chatName || !userId || !type) {
+        const { userId, type } = req.body;
+        if (!userId || !type) {
             return next(errors.bad_request("Bad request"));
         }
     }

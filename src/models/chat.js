@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const message = require('./message');
 
 
 const ChatSchema = mongoose.Schema({
@@ -19,7 +18,7 @@ const ChatSchema = mongoose.Schema({
     type: Date,
     default: Date.now()
   },
-  arrayOfMessage:{
+  messages:{
     type: Array,
     default: []
 }

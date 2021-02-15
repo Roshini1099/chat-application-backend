@@ -6,6 +6,6 @@ var jwtToken = require('../middlewares/jwtToken');
 router.post('/newChannel', jwtToken, validation, newChannel);
 router.post('/joinChannel', jwtToken, validation, joinChannel);
 router.get('/search', jwtToken, validation, searchChannel);
-router.get('/message', jwtToken, validation, message);
+router.post('/message', jwtToken, validation, message);
 
 module.exports = router;

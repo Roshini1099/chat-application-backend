@@ -37,20 +37,95 @@ const createNewUser = async (emailId, password, userName) => {
     return user;
 };
 
-const createNewChat = async (chatName, userId, type) => {
+const createNewChat = async (chatName, senderId, type, receiverId) => {
     let chat;
-    chat = await new Chat({
-        chatName,
-        participants: userId,
-        type
-    });
+    if (type === "channel") {
+        chat = await new Chat({
+            chatName,
+            participants: senderId,
+            type
+        });
+    }
+    else {
+        chat = await new Chat({
+            chatName,
+            type,
+            participants: { senderId, receiverId },
+        });
+    }
     return chat;
+
 };
 
 const joinNewChat = async (chatId, userId) => {
     const chat = await Chat.findByIdAndUpdate(chatId, { $push: { participants: userId } });
     return chat;
 };
+
+const updateDirectMessage = async (chatName, userId, receiverId) => {
+    const user = await User.findByIdAndUpdate(userId, { $push: { directMessage: { chatName, receiverId } } });
+    return user;
+};
+
+const updateChannel = async (chatName, userId) => {
+    const user = await User.findByIdAndUpdate(userId, { $push: { channels: { chatName } } });
+    return user;
+};
+
+const message = async (text, senderId, chatName, type, index) => {
+    let chat;
+    if (type === "Create") {
+        const messageLength = await Chat.findOne({ chatName: chatName });
+        chat = await Chat.findOneAndUpdate(chatName,
+            {
+                $push:
+                {
+                    messages:
+                    {
+                        senderId,
+                        text,
+                        index: messageLength.messages.length,
+                        seen: false,
+                        delete: false,
+                        delivered: true,
+                        timestamp: Date.now()
+                    }
+                }
+            });
+    }
+    else if (type === "Edit") {
+        let array = "messages." + index;
+        chat = await Chat.findOneAndUpdate(
+            { chatName: chatName },
+            {
+                $set: {
+                    [`${array + ".text"}`]: text,
+                    [`${array + ".seen"}`]: false,
+                    [`${array + ".delete"}`]: false,
+                    [`${array + ".delivered"}`]: true,
+                    [`${array + ".timestamp"}`]: Date.now(),
+                },
+            }
+        );
+
+    }
+    else if (type === "Delete") {
+        let array = "messages." + index;
+        chat = await Chat.findOneAndUpdate(
+            { chatName: chatName },
+            {
+                $set: {
+                    [`${array + ".text"}`]: text,
+                    [`${array + ".seen"}`]: false,
+                    [`${array + ".delete"}`]: true,
+                    [`${array + ".delivered"}`]: true,
+                    [`${array + ".timestamp"}`]: Date.now(),
+                },
+            }
+        );
+    }
+    return chat;
+}
 
 exports.createNewChat = createNewChat;
 exports.findByEmail = findByEmail;
@@ -59,3 +134,6 @@ exports.findByUserIdAndUpdate = findByUserIdAndUpdate;
 exports.findByChatName = findByChatName;
 exports.createNewUser = createNewUser;
 exports.joinNewChat = joinNewChat;
+exports.updateDirectMessage = updateDirectMessage;
+exports.updateChannel = updateChannel;
+exports.message = message;
