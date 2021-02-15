@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/channel", channelRoute);
+app.use("/api", channelRoute);
 
 app.get("/*", (req, res, next) => {
   res.send({ msg: "page not found" });

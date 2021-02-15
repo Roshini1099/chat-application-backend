@@ -45,3 +45,18 @@ exports.searchChannel = async (req, res, next) => {
         next(errors.internal_server_error("Internal server error"));
     }
 };
+
+// exports.message = async (req, res, next) => {
+//     const { text, senderId, messageType, receiverId } = req.body;
+//     let existingChatName;
+//     try {
+//         existingChatName = await findByChatName(searchKeys);
+//         if (existingChatName) {
+//             res.status(errorCodes.ok).send(existingChatName);
+//         } else {
+//             next(errors.not_found("Channel not found!!"));
+//         }
+//     } catch (err) {
+//         next(errors.internal_server_error("Internal server error"));
+//     }
+// };
