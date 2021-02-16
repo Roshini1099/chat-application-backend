@@ -2,7 +2,7 @@ const User = require('../models/user');
 const Chat = require('../models/chat');
 
 const findByEmail = async (email) => {
-    const user = await User.findOne({ emailId: email });
+    const user = await User.findOne({ emailId: email }).populate('channels.chatId',{createdAt: 0, participants:0}).populate('directMessage.chatId',{createdAt: 0, participants:0}).populate('directMessage.receiverId',{password: 0, directMessage: 0, channels: 0}).exec();
     return user;
 };
 
@@ -62,21 +62,23 @@ const joinNewChat = async (chatId, userId) => {
     return chat;
 };
 
-const updateDirectMessage = async (chatName, userId, receiverId) => {
-    const user = await User.findByIdAndUpdate(userId, { $push: { directMessage: { chatName, receiverId } } });
+const updateDirectMessage = async (chatId, userId, receiverId) => {
+    const user = await User.findByIdAndUpdate(userId, { $push: { directMessage: { chatId, receiverId } } });
     return user;
 };
 
-const updateChannel = async (chatName, userId) => {
-    const user = await User.findByIdAndUpdate(userId, { $push: { channels: { chatName } } });
+const updateChannel = async (chatId, userId) => {
+    const user = await User.findByIdAndUpdate(userId, { $push: { channels: { chatId } } });
     return user;
 };
 
-const message = async (text, senderId, chatName, type, index) => {
+const message = async (text, senderId, chatId, type, index) => {
     let chat;
+    console.log(chatId);
     if (type === "Create") {
-        const messageLength = await Chat.findOne({ chatName: chatName });
-        chat = await Chat.findOneAndUpdate(chatName,
+        const messageLength = await Chat.findOne({ _id: chatId });
+        console.log(messageLength)
+        chat = await Chat.findByIdAndUpdate(chatId,
             {
                 $push:
                 {
@@ -96,7 +98,7 @@ const message = async (text, senderId, chatName, type, index) => {
     else if (type === "Edit") {
         let array = "messages." + index;
         chat = await Chat.findOneAndUpdate(
-            { chatName: chatName },
+            { _id: chatId },
             {
                 $set: {
                     [`${array + ".text"}`]: text,
@@ -112,7 +114,7 @@ const message = async (text, senderId, chatName, type, index) => {
     else if (type === "Delete") {
         let array = "messages." + index;
         chat = await Chat.findOneAndUpdate(
-            { chatName: chatName },
+            { _id: chatId },
             {
                 $set: {
                     [`${array + ".text"}`]: text,
@@ -127,9 +129,9 @@ const message = async (text, senderId, chatName, type, index) => {
     return chat;
 }
 
-const getNewChats = async (chatName, timestamp) => {
+const getNewChats = async (chatId, timestamp) => {
     let arr = [];
-    const chat = await Chat.findOne({ chatName: chatName });
+    const chat = await Chat.findOne({ _id: chatId });
     for (var k = 0; k < chat.messages.length; k++) {
         if (chat.messages[k].timestamp >= timestamp) {
             arr.push(chat.messages[k]);

@@ -17,8 +17,8 @@ exports.newChannel = async (req, res, next) => {
                 next(errors.conflict("Direct Message already exists!!"));
             } else {
                 createdChannel = await createNewChat(chatName, userId, type, receiverId);
+                directMessage = await updateDirectMessage(createdChannel._id, userId, receiverId);
                 await createdChannel.save();
-                directMessage = await updateDirectMessage(chatName, userId, receiverId);
                 res.status(errorCodes.ok).send(createdChannel);
             }
         }
@@ -29,7 +29,7 @@ exports.newChannel = async (req, res, next) => {
             } else {
                 createdChannel = await createNewChat(chatName, userId, type, receiverId);
                 await createdChannel.save();
-                channel = await updateChannel(chatName, userId);
+                channel = await updateChannel(createdChannel._id, userId);
                 res.status(errorCodes.ok).send(createdChannel);
             }
         }
@@ -66,10 +66,10 @@ exports.searchChannel = async (req, res, next) => {
 };
 
 exports.message = async (req, res, next) => {
-    const { text, senderId, chatName, type, index } = req.body;
+    const { text, senderId, chatId, type, index } = req.body;
     let messages;
     try {
-        messages = await message(text, senderId, chatName, type, index);
+        messages = await message(text, senderId, chatId, type, index);
         if (messages) {
             res.status(errorCodes.ok).send({ "message": "message posted sucesfully" });
         } else {
@@ -81,10 +81,10 @@ exports.message = async (req, res, next) => {
 }
 
 exports.getChat = async (req, res, next) => {
-    const { chatName, timestamp } = req.body;
+    const { chatId, timestamp } = req.body;
     let chats;
     try {
-        chats = await getNewChats(chatName, timestamp);
+        chats = await getNewChats(chatId, timestamp);
         if (chats) {
             res.status(errorCodes.ok).send(chats);
         } else {

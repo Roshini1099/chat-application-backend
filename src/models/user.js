@@ -21,14 +21,17 @@ const UserSchema = mongoose.Schema({
 	lastSeen: {
 		type: String,
 	},
-	directMessage: {
-		type: Array,
-		default: []
-	},
-	channels: {
-		type: Array,
-		default: []
-	},
+	directMessage: [
+			{
+				chatId: { type: mongoose.Schema.Types.ObjectId, ref: 'chat' },
+				receiverId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' }
+			}
+		],
+	channels: [
+			{
+				chatId: { type: mongoose.Schema.Types.ObjectId, ref: 'chat' },
+			}
+		],
 	profileImage: {
 		type: String
 	},
