@@ -64,6 +64,7 @@ const joinNewChat = async (chatId, userId) => {
 
 const updateDirectMessage = async (chatId, userId, receiverId) => {
     const user = await User.findByIdAndUpdate(userId, { $push: { directMessage: { chatId, receiverId } } });
+    const receiver = await User.findByIdAndUpdate(receiverId, { $push: { directMessage: { chatId, userId } } });
     return user;
 };
 
@@ -137,10 +138,15 @@ const getNewChats = async (chatId, timestamp) => {
             arr.push(chat.messages[k]);
         }
     }
-
-
     return arr;
 };
+
+const updateDeliveredAndseen = async(type,chatId,index)=>{
+    let array = "messages." + index+'.'+type;
+    let chat = await Chat.findOneAndUpdate({_id:chatId},{$set:{
+        [`${array}`]: true
+    }})
+}
 
 exports.createNewChat = createNewChat;
 exports.findByEmail = findByEmail;
@@ -153,3 +159,4 @@ exports.updateDirectMessage = updateDirectMessage;
 exports.updateChannel = updateChannel;
 exports.message = message;
 exports.getNewChats = getNewChats;
+exports.updateDeliveredAndseen= updateDeliveredAndseen;

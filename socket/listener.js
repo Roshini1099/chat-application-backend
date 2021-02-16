@@ -1,4 +1,4 @@
-const {userStatus,typing,getNewChat,delivered,seen,newMessage} = require('./events');
+const {userStatus,typing,getNewChat,delivered,seen,newDM} = require('./events');
 
 
 const userSocketIdMap = new Map();
@@ -32,34 +32,35 @@ module.exports = io=>{
         const isValid = socket.handshake.auth.token;
         const userId = socket.handshake.auth.userId;
         if(isValid)
-        {
+        {   console.log('adding new client')
             addClientToMap(userId,socket.id);
             next();
         }
         
-        let err = new Error('token not verified');
-        next(err);
+        else{
+            let err = new Error('token not verified');
+            next(err);
+        }
+
     });
     
     io.on("connection", (socket) => {
         userStatus(socket,io,true);
 
+        userStatus(socket,io,false);
+        typing(socket,io,userSocketIdMap);
+        getNewChat(socket,io,userSocketIdMap);
+        delivered(socket,io,userSocketIdMap);
+        seen(socket,io,userSocketIdMap);
+        newDM(socket,io,userSocketIdMap);
 
 
 
         socket.on('disconnect', () => {
             //remove this client from online list
+            console.log('socket disconnected')
             removeClientFromMap(socket.handshake.auth.userId, socket.id);
-
-            userStatus(socket,io,false);
-            typing(socket,io,userSocketIdMap);
-            getNewChat(socket,io,userSocketIdMap);
-            delivered(socket,io,userSocketIdMap);
-            seen(socket,io,userSocketIdMap);
-            newMessage(socket,io,userSocketIdMap);
-
             socket.disconnect();
-            
             });
 
     });
