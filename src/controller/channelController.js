@@ -9,18 +9,12 @@ exports.newChannel = async (req, res, next) => {
     let createdChannel, existingChatName, directMessage, channel;
     try {
         if (type === "directMessage") {
-            senderDetails = await findByUserId(userId);
             receiverDetails = await findByUserId(receiverId);
-            let chatName = senderDetails.emailId.concat(receiverDetails.emailId);
-            existingChatName = await findByChatName(chatName);
-            if (existingChatName) {
-                next(errors.conflict("Direct Message already exists!!"));
-            } else {
+            let chatName = receiverDetails.userName;
                 createdChannel = await createNewChat(chatName, userId, type, receiverId);
                 directMessage = await updateDirectMessage(createdChannel._id, userId, receiverId);
                 await createdChannel.save();
                 res.status(errorCodes.ok).send(createdChannel);
-            }
         }
         else {
             existingChatName = await findByChatName(chatName);
@@ -66,12 +60,12 @@ exports.searchChannel = async (req, res, next) => {
 };
 
 exports.message = async (req, res, next) => {
-    const { text, senderId, chatId, type, index } = req.body;
-    let messages;
+    const { text, senderId, chatId, type, index, senderName } = req.body;
+    let messages, senderDetails;
     try {
-        messages = await message(text, senderId, chatId, type, index);
+        messages = await message(text, senderId, chatId, type, index,senderName);
         if (messages) {
-            res.status(errorCodes.ok).send({ "message": "message posted sucesfully" });
+            res.status(errorCodes.ok).send(messages);
         } else {
             next(errors.not_found("Messages cannot be updated!!"));
         }

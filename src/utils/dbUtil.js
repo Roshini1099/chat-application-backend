@@ -64,7 +64,7 @@ const joinNewChat = async (chatId, userId) => {
 
 const updateDirectMessage = async (chatId, userId, receiverId) => {
     const user = await User.findByIdAndUpdate(userId, { $push: { directMessage: { chatId, receiverId } } });
-    const receiver = await User.findByIdAndUpdate(receiverId, { $push: { directMessage: { chatId, userId } } });
+    const receiver = await User.findByIdAndUpdate(receiverId, { $push: { directMessage: { chatId, receiverId:userId } } });
     return user;
 };
 
@@ -73,19 +73,18 @@ const updateChannel = async (chatId, userId) => {
     return user;
 };
 
-const message = async (text, senderId, chatId, type, index) => {
-    let chat;
-    console.log(chatId);
+const message = async (text, senderId, chatId, type, index, senderName) => {
+    
     if (type === "Create") {
         const messageLength = await Chat.findOne({ _id: chatId });
-        console.log(messageLength)
-        chat = await Chat.findByIdAndUpdate(chatId,
+        let chat = await Chat.findByIdAndUpdate(chatId,
             {
                 $push:
                 {
                     messages:
                     {
                         senderId,
+                        senderName,
                         text,
                         index: messageLength.messages.length,
                         seen: false,
@@ -94,11 +93,13 @@ const message = async (text, senderId, chatId, type, index) => {
                         timestamp: Date.now()
                     }
                 }
-            });
+                
+            },{new: true},);
+            return chat;
     }
     else if (type === "Edit") {
         let array = "messages." + index;
-        chat = await Chat.findOneAndUpdate(
+       let chat = await Chat.findOneAndUpdate(
             { _id: chatId },
             {
                 $set: {
@@ -108,13 +109,16 @@ const message = async (text, senderId, chatId, type, index) => {
                     [`${array + ".delivered"}`]: true,
                     [`${array + ".timestamp"}`]: Date.now(),
                 },
-            }
+               
+            },
+            {new: true},
         );
+        return chat;
 
     }
     else if (type === "Delete") {
         let array = "messages." + index;
-        chat = await Chat.findOneAndUpdate(
+        let chat = await Chat.findOneAndUpdate(
             { _id: chatId },
             {
                 $set: {
@@ -124,10 +128,12 @@ const message = async (text, senderId, chatId, type, index) => {
                     [`${array + ".delivered"}`]: true,
                     [`${array + ".timestamp"}`]: Date.now(),
                 },
-            }
+            },
+            {new: true},
         );
+        return chat;
     }
-    return chat;
+
 }
 
 const getNewChats = async (chatId, timestamp) => {
