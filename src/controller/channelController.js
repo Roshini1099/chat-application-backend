@@ -75,10 +75,10 @@ exports.message = async (req, res, next) => {
 }
 
 exports.getChat = async (req, res, next) => {
-    const { chatId, timestamp } = req.body;
+    const { chatId} = req.body;
     let chats;
     try {
-        chats = await getNewChats(chatId, timestamp);
+        chats = await getNewChats(chatId);
         if (chats) {
             res.status(errorCodes.ok).send(chats);
         } else {
