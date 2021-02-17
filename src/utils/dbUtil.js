@@ -147,6 +147,11 @@ const getNewChats = async (chatId, timestamp) => {
     return arr;
 };
 
+const getNewChats = async (chatId) => {
+    const chat = await Chat.findOne({ _id: chatId });
+    return chat;
+};
+
 const updateDeliveredAndseen = async(type,chatId,index)=>{
     let array = "messages." + index+'.'+type;
     let chat = await Chat.findOneAndUpdate({_id:chatId},{$set:{
