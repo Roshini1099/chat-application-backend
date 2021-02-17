@@ -30,15 +30,24 @@ exports.typing = (socket,io,userSocketIdMap)=>{
 }
 
 exports.getNewChat = (socket,io,userSocketIdMap)=>{
-    socket.on('getnewchat',(payload)=>{ // chatId, index
+    socket.on('getnewchat',(payload)=>{ // chatId
+        console.log('inside getnewchat 34');
         if(payload.type==='channel')
         {
             io.to(payload.channelId).emit('getnewchat',{chatId:payload.chatId,index:payload.index});
         }
         else{
-            userSocketIdMap.get(payload.userId).forEach(receiverId=>{
-                io.to(receiverId).emit('getnewchat',{chatId:payload.chatId,index:payload.index});     
-            })
+            console.log('inside getnewchat 40')
+            if(userSocketIdMap.get(payload.recieverId)){
+                userSocketIdMap.get(payload.recieverId).forEach(receiverId=>{
+                    console.log('inside the get new chat')
+                    io.to(receiverId).emit('getnewchat',payload);     
+                })
+            }
+            else{
+                console.log('user not online')
+
+            }
         }
     })
 }
