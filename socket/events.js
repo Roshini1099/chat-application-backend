@@ -8,15 +8,23 @@ exports.userStatus = (socket,io,online)=>{
 
 exports.typing = (socket,io,userSocketIdMap)=>{
 
-    socket.on('typing',payload=>{  //type,recieverId,userName
+    socket.on('typing',payload=>{  //type,recieverId,userName,isTyping
         if(payload.type==='channel')
         {
-            socket.to(payload.channelId).emit('typing',{userId:payload.recieverId,userName:payload.userName});
+            socket.to(payload.channelId).emit('typing',payload);
         }
         else{
-            userSocketIdMap.get(payload.recieverId).forEach(receiverId=>{
-                io.to(receiverId).emit('typing',{userId:payload.recieverId,userName:payload.userName});     
-            })
+            console.log('typing',payload)
+            console.log(userSocketIdMap)
+            if(userSocketIdMap.get(payload.recieverId)){
+                userSocketIdMap.get(payload.recieverId).forEach(receiverId=>{
+                    io.to(receiverId).emit('typing',payload);     
+                })
+            }
+            else{
+                console.log('user not online')
+            }
+
         }
     })
 }

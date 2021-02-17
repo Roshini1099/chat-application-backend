@@ -28,9 +28,10 @@ function removeClientFromMap(userName, socketId){
 module.exports = io=>{
 
     io.use((socket, next) => {
-        console.log('new connection')
+        console.log('new connection',socket.handshake.auth)
         const isValid = socket.handshake.auth.token;
         const userId = socket.handshake.auth.userId;
+
         if(isValid)
         {   console.log('adding new client')
             addClientToMap(userId,socket.id);
