@@ -54,7 +54,6 @@ const createNewChat = async (chatName, senderId, type, receiverId) => {
         });
     }
     return chat;
-
 };
 
 const joinNewChat = async (chatId, userId) => {
@@ -89,7 +88,7 @@ const message = async (text, senderId, chatId, type, index, senderName) => {
                         index: messageLength.messages.length,
                         seen: false,
                         delete: false,
-                        delivered: true,
+                        delivered: false,
                         timestamp: Date.now()
                     }
                 }
@@ -152,11 +151,21 @@ const getCurrentChats = async (chatId) => {
     return chat;
 };
 
-const updateDeliveredAndseen = async(type,chatId,index)=>{
-    let array = "messages." + index+'.'+type;
-    let chat = await Chat.findOneAndUpdate({_id:chatId},{$set:{
-        [`${array}`]: true
-    }})
+const updateDeliveredAndseen = async(chatId)=>{
+    // let array = "messages." + index+'.'+type;
+    let chat = await Chat.findById(chatId);
+    var msg = chat.messages
+    for(var i=msg.length-1;i>0;i--){
+        if(msg[i].delivered == false){
+            msg[i].delivered = true;
+        }
+    }
+    let chats = await chat.save();
+    // console.log(chats);
+    return chats;
+    // let chat = await Chat.findOneAndUpdate({_id:chatId},{$set:{
+    //     [`${array}`]: true
+    // }})
 }
 
 exports.createNewChat = createNewChat;
