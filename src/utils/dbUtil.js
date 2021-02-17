@@ -147,7 +147,7 @@ const getNewChats = async (chatId, timestamp) => {
     return arr;
 };
 
-const getNewChats = async (chatId) => {
+const getCurrentChats = async (chatId) => {
     const chat = await Chat.findOne({ _id: chatId });
     return chat;
 };
@@ -169,5 +169,6 @@ exports.joinNewChat = joinNewChat;
 exports.updateDirectMessage = updateDirectMessage;
 exports.updateChannel = updateChannel;
 exports.message = message;
+exports.getCurrentChats = getCurrentChats;
 exports.getNewChats = getNewChats;
 exports.updateDeliveredAndseen= updateDeliveredAndseen;

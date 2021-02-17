@@ -1,5 +1,5 @@
 const errors = require("../utils/errorUtil");
-const { createNewChat, findByChatName, joinNewChat, findByUserId, updateDirectMessage, message, updateChannel, getNewChats } = require('../utils/dbUtil');
+const { createNewChat, findByChatName, joinNewChat, findByUserId, updateDirectMessage, message, updateChannel, getNewChats, getCurrentChats } = require('../utils/dbUtil');
 const errorCodes = require('../utils/errorCodes');
 const User = require('../models/user');
 const Chat = require('../models/chat');
