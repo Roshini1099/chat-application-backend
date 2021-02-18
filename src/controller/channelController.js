@@ -105,15 +105,16 @@ exports.getCurrentChat = async (req, res, next) => {
 }
 
 exports.chats = async (req, res, next) => {
-    const { chatId } = req.body;
+    const { chatId, type } = req.body;
     let chats;
     // try {
-        chats = await updateDeliveredAndseen(chatId);
+        chats = await updateDeliveredAndseen(chatId, type);
         if (chats) {
             res.status(errorCodes.ok).send(chats);
-        } else {
-            next(errors.not_found("Messages cannot be fetched!!"));
-        }
+        } 
+        // else {
+        //     next(errors.not_found("Messages cannot be fetched!!"));
+        // }
     // } catch (err) {
     //     next(errors.internal_server_error("Internal server error"));
     // }

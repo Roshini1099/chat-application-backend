@@ -135,34 +135,70 @@ const message = async (text, senderId, chatId, type, index, senderName) => {
 
 }
 
-// const getNewChats = async (chatId, timestamp) => {
-//     let arr = [];
-//     const chat = await Chat.findOne({ _id: chatId });
-//     for (var k = 0; k < chat.messages.length; k++) {
-//         if (chat.messages[k].timestamp >= timestamp) {
-//             arr.push(chat.messages[k]);
-//         }
-//     }
-//     return arr;
-// };
+const getNewChats = async (chatId, timestamp) => {
+    let arr = [];
+    const chat = await Chat.findOne({ _id: chatId });
+    for (var k = 0; k < chat.messages.length; k++) {
+        if (chat.messages[k].timestamp >= timestamp) {
+            arr.push(chat.messages[k]);
+        }
+    }
+    return arr;
+};
 
 const getCurrentChats = async (chatId) => {
     const chat = await Chat.findOne({ _id: chatId });
     return chat;
 };
 
-const updateDeliveredAndseen = async(chatId)=>{
-    // let array = "messages." + index+'.'+type;
+const updateDeliveredAndseen = async(chatId, type)=>{
+    let deliveredAndSeen;
     let chat = await Chat.findById(chatId);
     var msg = chat.messages
+    if(type == "delivered"){
     for(var i=msg.length-1;i>0;i--){
         if(msg[i].delivered == false){
-            msg[i].delivered = true;
-        }
+            let array = "messages." + [i];
+            deliveredAndSeen = await Chat.findOneAndUpdate(
+         { _id: chatId },
+         {
+             $set: {
+                 [`${array + ".delivered"}`]: true,
+             },
+         },
+         {new: true},
+     );
     }
-    let chats = await chat.save();
-    // console.log(chats);
-    return chats;
+    else{
+        return chat; 
+    }
+}
+    }
+    else{
+for(var i=msg.length-1;i>0;i--){
+    if(msg[i].seen == false){
+        let array = "messages." + [i];
+        deliveredAndSeen = await Chat.findOneAndUpdate(
+     { _id: chatId },
+     {
+         $set: {
+               [`${array + ".delivered"}`]: true,
+             [`${array + ".seen"}`]: true,
+         },
+     },
+     {new: true},
+ );
+}
+else{
+    return chat; 
+}
+}
+    }
+     
+return deliveredAndSeen; 
+
+
+
     // let chat = await Chat.findOneAndUpdate({_id:chatId},{$set:{
     //     [`${array}`]: true
     // }})
