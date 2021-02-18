@@ -43,6 +43,7 @@ function validation(req, res, next) {
     }
     else if (req.originalUrl === '/api/user/details') {
         const { userId } = req.body;
+        console.log(userId)
         if (!userId) {
             return next(errors.bad_request("Bad request"));
         }

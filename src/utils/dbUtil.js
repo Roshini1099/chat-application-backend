@@ -192,6 +192,12 @@ return deliveredAndSeen;
     //     [`${array}`]: true
     // }})
 }
+const findByUserIdAndChats = async (userId) => {
+    const user = await User.findOne({ _id: userId }).populate('channels.chatId',{createdAt: 0, participants:0}).populate('directMessage.chatId',{createdAt: 0, participants:0}).populate('directMessage.receiverId',{password: 0, directMessage: 0, channels: 0}).exec();
+    return user;
+};
+
+
 
 exports.createNewChat = createNewChat;
 exports.findByEmail = findByEmail;
@@ -203,5 +209,6 @@ exports.joinNewChat = joinNewChat;
 exports.updateDirectMessage = updateDirectMessage;
 exports.updateChannel = updateChannel;
 exports.message = message;
+exports.findByUserIdAndChats = findByUserIdAndChats;
 exports.getCurrentChats = getCurrentChats;
 exports.updateDeliveredAndseen= updateDeliveredAndseen;
