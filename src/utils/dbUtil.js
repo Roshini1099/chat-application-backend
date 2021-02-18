@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Chat = require('../models/chat');
+var io = require('../../socket/listener')
 
 const findByEmail = async (email) => {
     const user = await User.findOne({ emailId: email }).populate('channels.chatId',{createdAt: 0, participants:0}).populate('directMessage.chatId',{createdAt: 0, participants:0}).populate('directMessage.receiverId',{password: 0, directMessage: 0, channels: 0}).exec();
@@ -76,6 +77,23 @@ const message = async (text, senderId, chatId, type, index, senderName) => {
     
     if (type === "Create") {
         const messageLength = await Chat.findOne({ _id: chatId });
+        console.log('*********************',messageLength.participants[0].receiverId);
+        let recieverId;
+        if(messageLength.participants[0].receiverId == senderId)
+        {
+            recieverId= messageLength.participants[0].senderId;
+        }
+        else{
+            recieverId= messageLength.participants[0].receiverId;
+        }
+        console.log(senderId,recieverId);
+        let online = false;
+        online = io.checkOnline(recieverId);
+
+        // console.log('isonline status',isOnline);
+        // if(isOnline)
+        //     online=true;
+        // else online=false;
         let chat = await Chat.findByIdAndUpdate(chatId,
             {
                 $push:
@@ -88,11 +106,10 @@ const message = async (text, senderId, chatId, type, index, senderName) => {
                         index: messageLength.messages.length,
                         seen: false,
                         delete: false,
-                        delivered: false,
+                        delivered: online,
                         timestamp: Date.now()
                     }
-                }
-                
+                }    
             },{new: true},);
             return chat;
     }
@@ -122,7 +139,7 @@ const message = async (text, senderId, chatId, type, index, senderName) => {
             {
                 $set: {
                     [`${array + ".text"}`]: text,
-                    [`${array + ".seen"}`]: false,
+                    [`${array + ".seen"}`]: true,
                     [`${array + ".delete"}`]: true,
                     [`${array + ".delivered"}`]: true,
                     [`${array + ".timestamp"}`]: Date.now(),
@@ -132,7 +149,6 @@ const message = async (text, senderId, chatId, type, index, senderName) => {
         );
         return chat;
     }
-
 }
 
 const getCurrentChats = async (chatId) => {
@@ -140,13 +156,14 @@ const getCurrentChats = async (chatId) => {
     return chat;
 };
 
-const updateDeliveredAndseen = async(chatId, type)=>{
+const updateDeliveredAndseen = async(chatId, type,userId)=>{
+    console.log('inside delivered and seen update')
     let deliveredAndSeen;
     let chat = await Chat.findById(chatId);
     var msg = chat.messages
     if(type == "delivered"){
     for(var i=msg.length-1;i>0;i--){
-        if(msg[i].delivered == false){
+        if(msg[i].delivered == false && msg[i].senderId!== userId){
             let array = "messages." + [i];
             deliveredAndSeen = await Chat.findOneAndUpdate(
          { _id: chatId },
@@ -159,13 +176,13 @@ const updateDeliveredAndseen = async(chatId, type)=>{
      );
     }
     else{
-        return chat; 
+        return chat;
+        }
     }
-}
     }
     else{
 for(var i=msg.length-1;i>0;i--){
-    if(msg[i].seen == false){
+    if(msg[i].seen == false && msg[i].senderId!== userId){
         let array = "messages." + [i];
         deliveredAndSeen = await Chat.findOneAndUpdate(
      { _id: chatId },
@@ -176,26 +193,20 @@ for(var i=msg.length-1;i>0;i--){
          },
      },
      {new: true},
- );
-}
-else{
-    return chat; 
-}
-}
+        );
     }
-     
-return deliveredAndSeen; 
-
-
-
-    // let chat = await Chat.findOneAndUpdate({_id:chatId},{$set:{
-    //     [`${array}`]: true
-    // }})
+    else{
+        return chat; 
+        }
+    }
+    }
+return deliveredAndSeen;
 }
 const findByUserIdAndChats = async (userId) => {
     const user = await User.findOne({ _id: userId }).populate('channels.chatId',{createdAt: 0, participants:0}).populate('directMessage.chatId',{createdAt: 0, participants:0}).populate('directMessage.receiverId',{password: 0, directMessage: 0, channels: 0}).exec();
     return user;
 };
+
 
 
 
