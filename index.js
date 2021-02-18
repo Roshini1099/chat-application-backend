@@ -1,5 +1,5 @@
 const express = require("express");
-const initListeners = require('./socket/listener');
+const {initListener}= require('./socket/listener');
 const bodyParser = require("body-parser");
 const authRoute = require("./src/routes/authRoutes");
 const userRoute = require("./src/routes/userRoutes");
@@ -37,7 +37,7 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode).send(err.message);
 });
 
-initListeners(io);
+initListener(io);
 
 var port = 3333;
 

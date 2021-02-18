@@ -74,6 +74,8 @@ exports.message = async (req, res, next) => {
     }
 }
 
+
+
 exports.getChat = async (req, res, next) => {
     const { chatId} = req.body;
     let chats;
@@ -105,10 +107,11 @@ exports.getCurrentChat = async (req, res, next) => {
 }
 
 exports.chats = async (req, res, next) => {
-    const { chatId, type } = req.body;
+    const { chatId, type, userId } = req.body;
     let chats;
     // try {
-        chats = await updateDeliveredAndseen(chatId, type);
+        console.log('inside update status controller')
+        chats = await updateDeliveredAndseen(chatId, type, userId);
         if (chats) {
             res.status(errorCodes.ok).send(chats);
         } 
@@ -119,3 +122,20 @@ exports.chats = async (req, res, next) => {
     //     next(errors.internal_server_error("Internal server error"));
     // }
 }
+exports.addFile =()=>{
+    
+}
+// exports.getCurrentChat = async (req, res, next) => {
+//     const { chatId } = req.body;
+//     let chats;
+//     try {
+//         chats = await getCurrentChats(chatId);
+//         if (chats) {
+//             res.status(errorCodes.ok).send(chats);
+//         } else {
+//             next(errors.not_found("Messages cannot be fetched!!"));
+//         }
+//     } catch (err) {
+//         next(errors.internal_server_error("Internal server error"));
+//     }
+// }
