@@ -78,18 +78,18 @@ const message = async (text, senderId, chatId, type, index, senderName) => {
     if (type === "Create") {
         const messageLength = await Chat.findOne({ _id: chatId });
         console.log('*********************',messageLength.participants[0].receiverId);
-        let recieverId= senderId;
-        if(messageLength.participants[0].receiverId== senderId)
+        let recieverId;
+        if(messageLength.participants[0].receiverId == senderId)
         {
             recieverId= messageLength.participants[0].senderId;
         }
+        else{
+            recieverId= messageLength.participants[0].receiverId;
+        }
+        console.log(senderId,recieverId);
         let online = false;
-        try{
-           online = io.checkOnline(messageLength.participants[0].receiverId);
-        }
-        catch(err){
-            console.log(err)
-        }
+        online = io.checkOnline(recieverId);
+
         // console.log('isonline status',isOnline);
         // if(isOnline)
         //     online=true;
