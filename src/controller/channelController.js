@@ -78,7 +78,7 @@ exports.getChat = async (req, res, next) => {
     const { chatId} = req.body;
     let chats;
     try {
-        chats = await getNewChats(chatId);
+        chats = await getCurrentChats(chatId);
         if (chats) {
             res.status(errorCodes.ok).send(chats);
         } else {
