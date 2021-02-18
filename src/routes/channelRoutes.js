@@ -4,8 +4,8 @@ const validation = require("../middlewares/validation");
 var jwtToken = require('../middlewares/jwtToken');
 
 router.post('/newChannel', validation, newChannel);
-router.post('/joinChannel', jwtToken, validation, joinChannel);
-router.get('/search', jwtToken, validation, searchChannel);
+router.post('/joinChannel', validation, joinChannel);
+router.get('/search', validation, searchChannel);
 router.post('/message', validation, message);
 router.post('/getChat', validation, getChat);
 router.post('/getCurrentChat', validation, getCurrentChat);
