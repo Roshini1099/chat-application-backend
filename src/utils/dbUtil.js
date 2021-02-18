@@ -104,7 +104,7 @@ const message = async (text, senderId, chatId, type, index, senderName) => {
             {
                 $set: {
                     [`${array + ".text"}`]: text,
-                    [`${array + ".seen"}`]: false,
+                    [`${array + ".seen"}`]: true,
                     [`${array + ".delete"}`]: false,
                     [`${array + ".delivered"}`]: true,
                     [`${array + ".timestamp"}`]: Date.now(),
@@ -170,5 +170,4 @@ exports.updateDirectMessage = updateDirectMessage;
 exports.updateChannel = updateChannel;
 exports.message = message;
 exports.getCurrentChats = getCurrentChats;
-exports.getNewChats = getNewChats;
 exports.updateDeliveredAndseen= updateDeliveredAndseen;
