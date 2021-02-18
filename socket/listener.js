@@ -23,8 +23,9 @@ function removeClientFromMap(userName, socketId){
         }
     }
 }
-    
-module.exports = io=>{
+
+
+exports.initListener = io=>{
 
     io.use((socket, next) => {
         console.log('new connection',socket.handshake.auth)
@@ -46,16 +47,12 @@ module.exports = io=>{
     
     io.on("connection", (socket) => {
         userStatus(socket,io,true);
-
         userStatus(socket,io,false);
         typing(socket,io,userSocketIdMap);
         getNewChat(socket,io,userSocketIdMap);
         delivered(socket,io,userSocketIdMap);
         seen(socket,io,userSocketIdMap);
         newDM(socket,io,userSocketIdMap);
-
-
-
         socket.on('disconnect', () => {
             console.log('socket disconnected')
             removeClientFromMap(socket.handshake.auth.userId, socket.id);
@@ -66,3 +63,10 @@ module.exports = io=>{
 
 
 }
+exports.checkOnline = function(userId){
+    let value = userSocketIdMap.get(userId);
+    value = !!value;
+    console.log(value)
+    return value;
+}
+    
