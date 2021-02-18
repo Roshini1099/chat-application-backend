@@ -8,6 +8,6 @@ router.post('/joinChannel', jwtToken, validation, joinChannel);
 router.get('/search', jwtToken, validation, searchChannel);
 router.post('/message', validation, message);
 router.post('/getChat',  validation, getChat);
-router.post('/getCurrentChat',  validation, getCurrentChat);
+// router.post('/getCurrentChat',  validation, getCurrentChat);
 
 module.exports = router;

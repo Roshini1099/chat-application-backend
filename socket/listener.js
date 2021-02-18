@@ -14,11 +14,10 @@ function addClientToMap(userName, socketId){
 }
 
 function removeClientFromMap(userName, socketId){
+    console.log('client removed')
     if (userSocketIdMap.has(userName)) {
         let userSocketIdSet = userSocketIdMap.get(userName);
         userSocketIdSet.delete(socketId);
-        //if there are no clients for a user, remove that user from online
-        // list (map)
         if (userSocketIdSet.size ==0 ) {
             userSocketIdMap.delete(userName);
         }
@@ -58,7 +57,6 @@ module.exports = io=>{
 
 
         socket.on('disconnect', () => {
-            //remove this client from online list
             console.log('socket disconnected')
             removeClientFromMap(socket.handshake.auth.userId, socket.id);
             socket.disconnect();

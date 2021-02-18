@@ -15,7 +15,6 @@ exports.typing = (socket,io,userSocketIdMap)=>{
         }
         else{
             console.log('typing',payload)
-            console.log(userSocketIdMap)
             if(userSocketIdMap.get(payload.recieverId)){
                 userSocketIdMap.get(payload.recieverId).forEach(receiverId=>{
                     io.to(receiverId).emit('typing',payload);     
@@ -37,10 +36,10 @@ exports.getNewChat = (socket,io,userSocketIdMap)=>{
             io.to(payload.channelId).emit('getnewchat',{chatId:payload.chatId,index:payload.index});
         }
         else{
-            console.log('inside getnewchat 40')
+            console.log(payload.receiverId);
+            
             if(userSocketIdMap.get(payload.recieverId)){
                 userSocketIdMap.get(payload.recieverId).forEach(receiverId=>{
-                    console.log('inside the get new chat')
                     io.to(receiverId).emit('getnewchat',payload);     
                 })
             }
