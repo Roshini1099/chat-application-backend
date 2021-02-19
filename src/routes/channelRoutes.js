@@ -20,7 +20,7 @@ let upload = multer({ storage: storage}).single('attachment');
 router.post('/newChannel',jwtToken, validation, newChannel);
 router.post('/joinChannel',jwtToken, validation, joinChannel);
 router.get('/search',jwtToken, validation, searchChannel);
-router.post('/message',jwtToken, validation, message);
+router.post('/message',jwtToken, validation,upload, message);
 router.post('/findEmail',jwtToken, validation, findEmail);
 router.post('/getChat',jwtToken, validation, getChat);
 router.post('/updatestatus',chats);
