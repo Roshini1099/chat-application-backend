@@ -103,3 +103,13 @@ exports.newDM= (socket,io,userSocketIdMap)=>{
         })
     })
 }
+
+exports.joinRoom= (socket)=>{
+    socket.on('joinroom',payload=>{
+        console.log('listening to socket join room event',payload)
+        payload.forEach((value,index)=>{
+            console.log('joining channel ', value.chatId.chatName)
+            socket.join(value.chatId.chatName);
+        })
+    })
+}

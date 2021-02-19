@@ -79,7 +79,7 @@ const updateChannel = async (chatId, userId) => {
     return user;
 };
 
-const message = async (text, senderId, chatId, type, index, senderName) => {
+const message = async (text, senderId, chatId, type, index, senderName,isFile) => {
     
     if (type === "Create") {
         const messageLength = await Chat.findOne({ _id: chatId });
@@ -107,6 +107,7 @@ const message = async (text, senderId, chatId, type, index, senderName) => {
                     messages:
                     {
                         senderId,
+                        isFile,
                         senderName,
                         text,
                         index: messageLength.messages.length,

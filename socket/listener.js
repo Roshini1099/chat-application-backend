@@ -1,4 +1,4 @@
-const {userStatus,typing,getNewChat,delivered,seen,newDM} = require('./events');
+const {userStatus,typing,getNewChat,delivered,seen,newDM,joinRoom} = require('./events');
 
 
 const userSocketIdMap = new Map();
@@ -53,10 +53,11 @@ exports.initListener = io=>{
         delivered(socket,io,userSocketIdMap);
         seen(socket,io,userSocketIdMap);
         newDM(socket,io,userSocketIdMap);
+        joinRoom(socket);
+        
         socket.on('disconnect', () => {
-            console.log('socket disconnected')
+            console.log('socket disconnected',socket.id)
             removeClientFromMap(socket.handshake.auth.userId, socket.id);
-            socket.disconnect();
             });
 
     });

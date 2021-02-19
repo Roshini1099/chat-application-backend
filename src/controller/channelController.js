@@ -3,6 +3,10 @@ const { createNewChat, findByChatName, joinNewChat,findByUserEmail, findByUserId
 const errorCodes = require('../utils/errorCodes');
 const User = require('../models/user');
 const Chat = require('../models/chat');
+const multer = require('multer');
+const path= require('path')
+
+
 
 exports.newChannel = async (req, res, next) => {
     const { chatName, userId, type, receiverId, receiverEmail } = req.body;
@@ -76,19 +80,35 @@ exports.searchChannel = async (req, res, next) => {
     }
 };
 
-exports.message = async (req, res, next) => {
-    const { text, senderId, chatId, type, index, senderName } = req.body;
+exports.message = async (req,res, next) => {
+    req.body=JSON.parse(req.body.data)
+    let { text, senderId, chatId, type, index, senderName,isFile } = req.body;
     let messages, senderDetails;
-    try {
-        messages = await message(text, senderId, chatId, type, index,senderName);
-        if (messages) {
-            res.status(errorCodes.ok).send(messages);
-        } else {
-            next(errors.not_found("Messages cannot be updated!!"));
+
+        
+        console.log('req body files----',req.body);
+        if(isFile){
+            console.log(req.file)
+            if(!req.file)
+            {
+                next(errors.internal_server_error("Internal server error"));
+            }
+            console.log('file uploadded successfully',req.file)
+            text = 'http://localhost:3333/public/'+req.file.filename;
         }
-    } catch (err) {
-        next(errors.internal_server_error("Internal server error"));
-    }
+        try {
+            messages = await message(text, senderId, chatId, type, index,senderName,isFile);
+            if (messages) {
+                res.status(errorCodes.ok).send(messages);
+            } else {
+                next(errors.not_found("Messages cannot be updated!!"));
+            }
+        } catch (err) {
+            next(errors.internal_server_error("Internal server error"));
+        }
+    
+
+    
 }
 
 
