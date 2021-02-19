@@ -11,7 +11,8 @@ exports.typing = (socket,io,userSocketIdMap)=>{
     socket.on('typing',payload=>{  //type,recieverId,userName,isTyping
         if(payload.type==='channel')
         {
-            socket.to(payload.channelId).emit('typing',payload);
+            console.log('typing to ' ,payload.chatId)
+            socket.to(payload.chatId).emit('typing',payload);
         }
         else{
             console.log('typing',payload)
@@ -33,7 +34,7 @@ exports.getNewChat = (socket,io,userSocketIdMap)=>{
         console.log('inside getnewchat 34');
         if(payload.type==='channel')
         {
-            io.to(payload.channelId).emit('getnewchat',{chatId:payload.chatId,index:payload.index});
+            io.to(payload.chatId).emit('getnewchat',{chatId:payload.chatId,index:payload.index});
         }
         else{
             console.log(payload.receiverId);
@@ -108,8 +109,8 @@ exports.joinRoom= (socket)=>{
     socket.on('joinroom',payload=>{
         console.log('listening to socket join room event',payload)
         payload.forEach((value,index)=>{
-            console.log('joining channel ', value.chatId.chatName)
-            socket.join(value.chatId.chatName);
+            console.log('joining channel ', value.chatId._id)
+            socket.join(value.chatId._id);
         })
     })
 }
