@@ -12,6 +12,12 @@ const findByUserId = async (userId) => {
     return user;
 };
 
+const findByUserEmail = async (emailId) => {
+    const user = await User.findOne({emailId});
+    return user;
+};
+
+
 const findByChatName = async (chatName) => {
     const chat = await Chat.findOne({ chatName });
     return chat;
@@ -57,8 +63,8 @@ const createNewChat = async (chatName, senderId, type, receiverId) => {
     return chat;
 };
 
-const joinNewChat = async (chatId, userId) => {
-    const chat = await Chat.findByIdAndUpdate(chatId, { $push: { participants: userId } });
+const joinNewChat = async (chatName, userId) => {
+    const chat = await Chat.findOneAndUpdate({ chatName }, { $push: { participants: userId } },{new: true});
     return chat;
 };
 
@@ -203,6 +209,12 @@ for(var i=msg.length-1;i>0;i--){
     }
 return deliveredAndSeen;
 }
+const findByUserIdAndChats = async (userId) => {
+    const user = await User.findOne({ _id: userId }).populate('channels.chatId',{createdAt: 0, participants:0}).populate('directMessage.chatId',{createdAt: 0, participants:0}).populate('directMessage.receiverId',{password: 0, directMessage: 0, channels: 0}).exec();
+    return user;
+};
+
+
 
 
 exports.createNewChat = createNewChat;
@@ -212,8 +224,10 @@ exports.findByUserIdAndUpdate = findByUserIdAndUpdate;
 exports.findByChatName = findByChatName;
 exports.createNewUser = createNewUser;
 exports.joinNewChat = joinNewChat;
+exports.findByUserEmail = findByUserEmail;
 exports.updateDirectMessage = updateDirectMessage;
 exports.updateChannel = updateChannel;
 exports.message = message;
+exports.findByUserIdAndChats = findByUserIdAndChats;
 exports.getCurrentChats = getCurrentChats;
 exports.updateDeliveredAndseen= updateDeliveredAndseen;

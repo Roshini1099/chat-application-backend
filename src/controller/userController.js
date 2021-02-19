@@ -1,12 +1,13 @@
 const errors = require("../utils/errorUtil");
-const { findByUserId, findByUserIdAndUpdate } = require('../utils/dbUtil');
+const { findByUserId, findByUserIdAndUpdate, findByUserIdAndChats } = require('../utils/dbUtil');
 const errorCodes = require('../utils/errorCodes');
 
 exports.details = async (req, res, next) => {
     const { userId } = req.body;
+    console.log(userId)
     let existingUser;
     try {
-        existingUser = await findByUserId(userId);
+      existingUser = await findByUserIdAndChats(userId);
         if (existingUser) {
             res.status(errorCodes.ok).send(existingUser);
         } else {
@@ -15,7 +16,7 @@ exports.details = async (req, res, next) => {
     } catch (err) {
         next(errors.internal_server_error("Internal server error"));
     }
-};
+  };
 
 exports.edit = async (req, res, next) => {
     const { userId, userName, status, profileImage, phoneNumber } = req.body;

@@ -30,8 +30,8 @@ function validation(req, res, next) {
         }
     }
     else if (req.originalUrl === '/api/channel/joinChannel') {
-        const { chatId, userId } = req.body;
-        if (!chatId || !userId) {
+        const { chatName, userId } = req.body;
+        if (!chatName || !userId) {
             return next(errors.bad_request("Bad request"));
         }
     }
@@ -43,6 +43,7 @@ function validation(req, res, next) {
     }
     else if (req.originalUrl === '/api/user/details') {
         const { userId } = req.body;
+        console.log(userId)
         if (!userId) {
             return next(errors.bad_request("Bad request"));
         }
