@@ -1,16 +1,17 @@
 const errors = require("../utils/errorUtil");
-const { createNewChat, findByChatName, joinNewChat, findByUserId, updateDirectMessage, message, updateChannel, getNewChats, getCurrentChats, updateDeliveredAndseen } = require('../utils/dbUtil');
+const { createNewChat, findByChatName, joinNewChat,findByUserEmail, findByUserId, updateDirectMessage, message, updateChannel, getNewChats, getCurrentChats, updateDeliveredAndseen } = require('../utils/dbUtil');
 const errorCodes = require('../utils/errorCodes');
 const User = require('../models/user');
 const Chat = require('../models/chat');
 
 exports.newChannel = async (req, res, next) => {
-    const { chatName, userId, type, receiverId } = req.body;
+    const { chatName, userId, type, receiverId, receiverEmail } = req.body;
     let createdChannel, existingChatName, directMessage, channel;
     try {
         if (type === "directMessage") {
-            receiverDetails = await findByUserId(receiverId);
+            receiverDetails = await findByUserEmail(receiverEmail);
             let chatName = receiverDetails.userName;
+            let  receiverId = receiverDetails._id;
                 createdChannel = await createNewChat(chatName, userId, type, receiverId);
                 directMessage = await updateDirectMessage(createdChannel._id, userId, receiverId);
                 await createdChannel.save();
@@ -32,17 +33,33 @@ exports.newChannel = async (req, res, next) => {
     }
 };
 
-exports.joinChannel = async (req, res, next) => {
-    const { chatId, userId } = req.body;
-    let joinedChannel;
+exports.findEmail = async (req, res, next) => {
+    const { emailId } = req.body;
+    let receiverDetails;
     try {
-        joinedChannel = await joinNewChat(chatId, userId);
-        res.status(errorCodes.ok).send({ "message": "Joined chat successfully" });
+        receiverDetails = await findByUserEmail(emailId);
+        res.status(errorCodes.ok).send(receiverDetails);
     }
     catch (err) {
         next(errors.internal_server_error("Internal server error"));
     }
 };
+
+
+exports.joinChannel = async (req, res, next) => {
+    const { chatName, userId } = req.body;
+    let joinedChannel, channel;
+    try {
+        joinedChannel = await joinNewChat(chatName, userId);
+        await joinedChannel.save();
+        channel = await updateChannel(joinedChannel._id, userId);
+        res.status(errorCodes.ok).send(joinedChannel);
+    }
+    catch (err) {
+        next(errors.internal_server_error("Internal server error"));
+    }
+};
+
 
 exports.searchChannel = async (req, res, next) => {
     const { searchKeys } = req.body;
