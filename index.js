@@ -5,6 +5,7 @@ const authRoute = require("./src/routes/authRoutes");
 const userRoute = require("./src/routes/userRoutes");
 const channelRoute = require("./src/routes/channelRoutes");
 const InitiateMongoServer = require("./config");
+const logger = require('./logger')
 const dotenv = require("dotenv");
 var cors = require('cors')
 const app = express();
@@ -30,6 +31,8 @@ app.use("/api/channel", channelRoute);
 app.use("/api", channelRoute);
 
 app.get("/*", (req, res, next) => {
+  logger.error('pagenot found')
+
   res.send({ msg: "page not found" });
 });
 
@@ -43,4 +46,6 @@ var port = 3333;
 
 server.listen(port, () => {
   console.log('Chat Application is listening on port ' + port);
+  logger.info('connected to port');
+  logger.error('error caught')
 });
