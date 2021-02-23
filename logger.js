@@ -14,6 +14,12 @@ const logger = winston.createLogger({
         level: "debug",
 
       }),
+      new winston.transports.File({
+        filename: "./server.log",
+        level: "verbose",
+        json:true
+
+      }),
       new winston.transports.File({ 
           filename: "./server.log",
           format: winston.format.combine(winston.format.timestamp(),winston.format.simple())
