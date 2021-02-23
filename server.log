@@ -1,0 +1,163 @@
+info: connected to port {"timestamp":"2021-02-23T06:24:56.672Z"}
+error: error caught {"timestamp":"2021-02-23T06:24:56.673Z"}
+info: connected to port {"timestamp":"2021-02-23T06:32:08.828Z"}
+error: error caught {"timestamp":"2021-02-23T06:32:08.828Z"}
+info: connected to port {"timestamp":"2021-02-23T08:34:21.238Z"}
+error: error caught {"timestamp":"2021-02-23T08:34:21.239Z"}
+info: connected to port {"timestamp":"2021-02-23T08:36:08.548Z"}
+error: error caught {"timestamp":"2021-02-23T08:36:08.548Z"}
+info: connected to port {"timestamp":"2021-02-23T08:57:31.674Z"}
+error: error caught {"timestamp":"2021-02-23T08:57:31.674Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:57:41.957Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:57:46.979Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:57:51.993Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:57:58.243Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:58:03.254Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:58:08.263Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:58:18.330Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:58:23.337Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:58:28.348Z"}
+info: connected to port {"timestamp":"2021-02-23T08:58:35.926Z"}
+error: error caught {"timestamp":"2021-02-23T08:58:35.926Z"}
+info: connected to port {"timestamp":"2021-02-23T08:59:23.529Z"}
+error: error caught {"timestamp":"2021-02-23T08:59:23.530Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:59:29.231Z"}
+error: pagenot found {"timestamp":"2021-02-23T08:59:29.932Z"}
+info: connected to port {"timestamp":"2021-02-23T09:00:30.577Z"}
+error: error caught {"timestamp":"2021-02-23T09:00:30.577Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:00:35.504Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:00:36.670Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:00:41.677Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:00:46.693Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:00:53.015Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:00:58.022Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:03.028Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:13.168Z"}
+info: connected to port {"timestamp":"2021-02-23T09:01:15.179Z"}
+error: error caught {"timestamp":"2021-02-23T09:01:15.179Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:19.703Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:24.764Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:29.796Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:35.933Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:40.937Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:45.946Z"}
+info: connected to port {"timestamp":"2021-02-23T09:01:52.665Z"}
+error: error caught {"timestamp":"2021-02-23T09:01:52.666Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:55.869Z"}
+info: 8.412939ms {"timestamp":"2021-02-23T09:01:55.873Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:01:56.612Z"}
+info: 0.8238989999999999ms {"timestamp":"2021-02-23T09:01:56.613Z"}
+info: connected to port {"timestamp":"2021-02-23T09:08:49.821Z"}
+error: error caught {"timestamp":"2021-02-23T09:08:49.822Z"}
+info: connected to port {"timestamp":"2021-02-23T09:09:43.002Z"}
+error: error caught {"timestamp":"2021-02-23T09:09:43.002Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:09:51.041Z"}
+error: pagenot found {"timestamp":"2021-02-23T09:09:51.769Z"}
+{"message":"connected to port","level":"info"}
+info: connected to port {"timestamp":"2021-02-23T09:13:24.554Z"}
+{"message":"error caught","level":"error"}
+error: error caught {"timestamp":"2021-02-23T09:13:24.554Z"}
+{"message":"pagenot found","level":"error"}
+error: pagenot found {"timestamp":"2021-02-23T09:13:48.981Z"}
+{"message":{"responsetime":"30.627308ms"},"level":"verbose"}
+{"message":"pagenot found","level":"error"}
+error: pagenot found {"timestamp":"2021-02-23T09:13:49.295Z"}
+{"message":{"responsetime":"1.307931ms"},"level":"verbose"}
+{"message":"pagenot found","level":"error"}
+error: pagenot found {"timestamp":"2021-02-23T09:13:51.230Z"}
+{"message":{"responsetime":"1.371793ms"},"level":"verbose"}
+{"message":"pagenot found","level":"error"}
+error: pagenot found {"timestamp":"2021-02-23T09:13:51.523Z"}
+{"message":{"responsetime":"0.937518ms"},"level":"verbose"}
+{"message":{"responsetime":"4.674777ms"},"level":"verbose"}
+{"message":{"responsetime":"1.0696489999999998ms"},"level":"verbose"}
+{"responsetime":"14.054860999999999ms","level":"verbose","message":"this is my message"}
+{"responsetime":"2.970214ms","level":"verbose","message":"this is my message"}
+{"responsetime":9.124695,"level":"verbose","message":"this is my message"}
+{"responsetime":0.451306,"level":"verbose","message":"this is my message"}
+{"responsetime":0.327991,"level":"verbose","message":"this is my message"}
+{"responsetime":0.289505,"level":"verbose","message":"this is my message"}
+{"responsetime":0.363496,"level":"verbose","message":"this is my message"}
+{"responsetime":0.20923999999999998,"level":"verbose","message":"this is my message"}
+{"responsetime":0.49911099999999997,"level":"verbose","message":"this is my message"}
+{"responsetime":0.339377,"level":"verbose","message":"this is my message"}
+{"responsetime":0.5039549999999999,"level":"verbose","message":"this is my message"}
+{"responsetime":0.457335,"level":"verbose","message":"this is my message"}
+{"responsetime":0.262505,"level":"verbose","message":"this is my message"}
+{"responsetime":1.03057,"level":"verbose","message":"this is my message"}
+{"responsetime":0.29947,"level":"verbose","message":"this is my message"}
+{"responsetime":0.205848,"level":"verbose","message":"this is my message"}
+{"responsetime":0.447484,"level":"verbose","message":"this is my message"}
+{"responsetime":0.33916399999999997,"level":"verbose","message":"this is my message"}
+{"responsetime":0.317699,"level":"verbose","message":"this is my message"}
+{"responsetime":0.293657,"level":"verbose","message":"this is my message"}
+{"responsetime":0.334241,"level":"verbose","message":"this is my message"}
+{"responsetime":0.33277599999999996,"level":"verbose","message":"this is my message"}
+{"responsetime":0.31112999999999996,"level":"verbose","message":"this is my message"}
+{"responsetime":0.397524,"level":"verbose","message":"this is my message"}
+{"responsetime":0.378474,"level":"verbose","message":"this is my message"}
+{"responsetime":0.333318,"level":"verbose","message":"this is my message"}
+{"responsetime":0.527032,"level":"verbose","message":"this is my message"}
+{"responsetime":0.204002,"level":"verbose","message":"this is my message"}
+{"responsetime":0.33050999999999997,"level":"verbose","message":"this is my message"}
+{"responsetime":1.2212049999999999,"level":"verbose","message":"this is my message"}
+{"responsetime":1.064508,"level":"verbose","message":"this is my message"}
+{"responsetime":3280.843181,"level":"verbose","message":"this is my message"}
+{"responsetime":0.09990199999999999,"level":"verbose","message":"this is my message"}
+{"responsetime":607.283298,"level":"verbose","message":"this is my message"}
+{"responsetime":0.794945,"level":"verbose","message":"this is my message"}
+{"responsetime":1196.340172,"level":"verbose","message":"this is my message"}
+{"responsetime":0.093863,"level":"verbose","message":"this is my message"}
+{"responsetime":565.911661,"level":"verbose","message":"this is my message"}
+{"responsetime":0.073825,"level":"verbose","message":"this is my message"}
+{"responsetime":1105.390771,"level":"verbose","message":"this is my message"}
+{"responsetime":0.052759,"level":"verbose","message":"this is my message"}
+{"responsetime":270.304391,"level":"verbose","message":"this is my message"}
+{"responsetime":0.07163699999999999,"level":"verbose","message":"this is my message"}
+{"responsetime":936.898332,"level":"verbose","message":"this is my message"}
+{"responsetime":0.077994,"level":"verbose","message":"this is my message"}
+{"responsetime":277.12189,"level":"verbose","message":"this is my message"}
+{"responsetime":575.130908,"level":"verbose","message":"this is my message"}
+{"responsetime":266.60157399999997,"level":"verbose","message":"this is my message"}
+{"responsetime":0.42880199999999996,"level":"verbose","message":"this is my message"}
+{"responsetime":580.4751739999999,"level":"verbose","message":"this is my message"}
+{"responsetime":1.0967099999999999,"level":"verbose","message":"this is my message"}
+{"responsetime":0.378088,"level":"verbose","message":"this is my message"}
+{"responsetime":0.547322,"level":"verbose","message":"this is my message"}
+{"responsetime":0.383197,"level":"verbose","message":"this is my message"}
+{"responsetime":0.24784899999999999,"level":"verbose","message":"this is my message"}
+{"responsetime":0.354692,"level":"verbose","message":"this is my message"}
+{"responsetime":0.153536,"level":"verbose","message":"this is my message"}
+{"responsetime":550.608691,"level":"verbose","message":"this is my message"}
+{"responsetime":0.333826,"level":"verbose","message":"this is my message"}
+{"responsetime":0.272102,"level":"verbose","message":"this is my message"}
+{"responsetime":1.0526039999999999,"level":"verbose","message":"this is my message"}
+{"responsetime":0.220738,"level":"verbose","message":"this is my message"}
+{"responsetime":0.294517,"level":"verbose","message":"this is my message"}
+{"responsetime":0.415823,"level":"verbose","message":"this is my message"}
+{"responsetime":0.40022199999999997,"level":"verbose","message":"this is my message"}
+{"responsetime":0.42236999999999997,"level":"verbose","message":"this is my message"}
+{"responsetime":0.342585,"level":"verbose","message":"this is my message"}
+{"responsetime":0.37924199999999997,"level":"verbose","message":"this is my message"}
+{"responsetime":0.395248,"level":"verbose","message":"this is my message"}
+{"responsetime":1.455468,"level":"verbose","message":"this is my message"}
+{"responsetime":0.329077,"level":"verbose","message":"this is my message"}
+{"responsetime":0.40931,"level":"verbose","message":"this is my message"}
+{"responsetime":0.278817,"level":"verbose","message":"this is my message"}
+{"responsetime":0.338549,"level":"verbose","message":"this is my message"}
+{"responsetime":0.33958499999999997,"level":"verbose","message":"this is my message"}
+{"responsetime":0.938665,"level":"verbose","message":"this is my message"}
+{"responsetime":0.408491,"level":"verbose","message":"this is my message"}
+{"responsetime":0.364037,"level":"verbose","message":"this is my message"}
+{"responsetime":0.41870799999999997,"level":"verbose","message":"this is my message"}
+{"responsetime":0.38922199999999996,"level":"verbose","message":"this is my message"}
+{"responsetime":2.527131,"level":"verbose","message":"this is my message"}
+{"responsetime":0.38822599999999996,"level":"verbose","message":"this is my message"}
+{"responsetime":0.395022,"level":"verbose","message":"this is my message"}
+{"responsetime":0.293052,"level":"verbose","message":"this is my message"}
+{"responsetime":0.368816,"level":"verbose","message":"this is my message"}
+{"responsetime":0.300379,"level":"verbose","message":"this is my message"}
+{"responsetime":0.36696599999999996,"level":"verbose","message":"this is my message"}
+{"responsetime":2.165494,"level":"verbose","message":"this is my message"}
+{"responsetime":1.204283,"level":"verbose","message":"this is my message"}
+{"responsetime":0.33827999999999997,"level":"verbose","message":"this is my message"}

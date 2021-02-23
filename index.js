@@ -5,6 +5,8 @@ const authRoute = require("./src/routes/authRoutes");
 const userRoute = require("./src/routes/userRoutes");
 const channelRoute = require("./src/routes/channelRoutes");
 const InitiateMongoServer = require("./config");
+const responseTime = require('response-time')
+const logger = require('./logger')
 const dotenv = require("dotenv");
 var cors = require('cors')
 const app = express();
@@ -19,6 +21,11 @@ dotenv.config();
 if (dotenv.error) throw new Error("Error in fetching .env file");
 
 InitiateMongoServer();
+
+app.use(responseTime((req, res, time) => {
+  logger.verbose('this is my message',{"responsetime":time});
+}));
+
 app.use('/public',express.static(__dirname + '/public'));
 app.use(cors())
 app.use(bodyParser.json());
@@ -30,6 +37,7 @@ app.use("/api/channel", channelRoute);
 app.use("/api", channelRoute);
 
 app.get("/*", (req, res, next) => {
+
   res.send({ msg: "page not found" });
 });
 
@@ -43,4 +51,6 @@ var port = 3333;
 
 server.listen(port, () => {
   console.log('Chat Application is listening on port ' + port);
+  // logger.info('connected to port');
+  // logger.error('error caught')
 });
